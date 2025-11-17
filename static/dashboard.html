@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - VinScan</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="/static/css/responsive.css">
+    <style>
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: var(--spacing-xl);
+            background: var(--gray-50);
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .dashboard-header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .dashboard-header p {
+            margin: var(--spacing-sm) 0 0 0;
+            color: var(--gray-600);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-card-label {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .action-card {
+            background: white;
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-base);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .action-card-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .action-card h3 {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .action-card p {
+            color: var(--gray-600);
+            margin: 0;
+        }
+
+        .profile-section {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .profile-info h2 {
+            margin: 0 0 var(--spacing-xs) 0;
+        }
+
+        .profile-info p {
+            margin: 0;
+            color: var(--gray-600);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-base);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 style="margin: 0; color: var(--primary-blue);">VinScan</h2>
+                <p style="margin: var(--spacing-xs) 0 0 0; color: var(--gray-600); font-size: 0.875rem;">Business Intelligence</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="sidebar-nav-item active">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/chat" class="sidebar-nav-item">
+                    <span>💬</span>
+                    <span>Interview</span>
+                </a>
+                <a href="/report" class="sidebar-nav-item">
+                    <span>📄</span>
+                    <span>Reports</span>
+                </a>
+                <a href="#" id="logout-btn" class="sidebar-nav-item">
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="dashboard-header">
+                <h1>Welcome back, <span id="user-name">User</span>!</h1>
+                <p>Manage your business intelligence and insights</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-value" id="stat-interviews">0</div>
+                    <div class="stat-card-label">Stakeholders Interviewed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value" id="stat-phase">-</div>
+                    <div class="stat-card-label">Current Phase</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-value" id="stat-reports">0</div>
+                    <div class="stat-card-label">Reports Generated</div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-info">
+                        <h2>Profile Information</h2>
+                        <p>Your account details and preferences</p>
+                    </div>
+                </div>
+                <div id="profile-content">
+                    <p>Loading profile...</p>
+                </div>
+            </div>
+
+            <!-- Action Cards -->
+            <div class="action-cards">
+                <a href="/chat" class="action-card">
+                    <div class="action-card-icon">💬</div>
+                    <h3>Start Interview</h3>
+                    <p>Begin or continue your stakeholder interviews to gather business insights</p>
+                </a>
+                <a href="/report" class="action-card">
+                    <div class="action-card-icon">📄</div>
+                    <h3>View Reports</h3>
+                    <p>Access your generated business intelligence reports and analysis</p>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/auth.js"></script>
+    
+    <script>
+        // Check authentication
+        if (!requireAuth()) {
+            // Redirect handled by requireAuth
+            exit;
+        }
+
+        // Load user info
+        const user = getCurrentUser();
+        if (user) {
+            document.getElementById('user-name').textContent = user.name || 'User';
+        }
+
+        // Load dashboard data
+        async function loadDashboard() {
+            const clientId = getClientId();
+            if (!clientId) {
+                showToast('Client ID not found', 'error');
+                return;
+            }
+
+            try {
+                // Load profile
+                const profileResponse = await api.getProfile();
+                if (profileResponse.client) {
+                    const profile = profileResponse.client;
+                    document.getElementById('profile-content').innerHTML = `
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg);">
+                            <div>
+                                <strong>Name:</strong><br>
+                                <span>${escapeHtml(profile.name || 'N/A')}</span>
+                            </div>
+                            <div>
+                                <strong>Email:</strong><br>
+                                <span>${escapeHtml(profile.email || 'N/A')}</span>
+                            </div>
+                            <div>
+                                <strong>Position:</strong><br>
+                                <span>${escapeHtml(profile.position || 'N/A')}</span>
+                            </div>
+                            <div>
+                                <strong>Website:</strong><br>
+                                <span>${profile.websiteUrl ? `<a href="${escapeHtml(profile.websiteUrl)}" target="_blank">${escapeHtml(profile.websiteUrl)}</a>` : 'N/A'}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Load conversation state
+                try {
+                    const stateResponse = await api.getConversationState(clientId);
+                    if (stateResponse.conversationState) {
+                        const state = stateResponse.conversationState;
+                        document.getElementById('stat-interviews').textContent = 
+                            state.stakeholdersInterviewed?.length || 0;
+                        document.getElementById('stat-phase').textContent = 
+                            state.phase ? state.phase.replace('_', ' ').toUpperCase() : '-';
+                    }
+                } catch (error) {
+                    // Conversation state might not exist yet
+                    console.log('No conversation state found');
+                }
+
+                // Check for reports
+                try {
+                    const reportResponse = await api.getReport(clientId);
+                    if (reportResponse.report) {
+                        document.getElementById('stat-reports').textContent = '1';
+                    }
+                } catch (error) {
+                    // No report yet
+                    console.log('No report found');
+                }
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                showToast('Failed to load dashboard data', 'error');
+            }
+        }
+
+        // Load dashboard on page load
+        loadDashboard();
+
+        // Mobile menu toggle
+        const sidebar = document.querySelector('.sidebar');
+        if (window.innerWidth <= 1024) {
+            // Add mobile menu button if needed
+        }
+    </script>
+</body>
+</html>
+

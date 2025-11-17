@@ -1,0 +1,20 @@
+# Core dependencies
+fastapi>=0.104.0
+uvicorn>=0.23.2
+python-dotenv>=1.0.0
+pydantic>=2.4.0
+pydantic[email]>=2.4.0
+requests
+httpx
+PyJWT
+
+# Authentication and security
+bcrypt>=4.0.1
+
+# Data handling
+python-multipart>=0.0.6
+
+# CORS
+fastapi-cors>=0.0.1
+
+openai

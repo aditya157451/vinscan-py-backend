@@ -1,0 +1,46 @@
+serverPy/
+│
+├── __init__.py                  # Empty file that marks serverPy as a Python package
+│
+├── main.py                      # FastAPI application entry point with route registration and middleware setup
+│
+├── requirements.txt             # List of Python package dependencies (FastAPI, PyJWT, bcrypt, etc.)
+│
+├── .env                         # Environment variables for API keys and secrets
+│
+├── .gitignore                   # Specifies files to exclude from version control
+│
+├── TEXT.txt                     # Documentation showing directory structure
+│
+├── constants/                   # Package containing application constants
+│   ├── __init__.py              # Marks constants as a package
+│   ├── index.py                 # Defines stakeholders and interview questions for different roles
+│   └── prompts.py               # System prompts for AI assistant and interview phases
+│
+├── data/                        # Directory storing JSON data files
+│   ├── clients.json             # User account information (hashed passwords, profile details)
+│   ├── conversation_states.json # Interview progress and conversation history
+│   └── reports.json             # Generated business reports
+│
+├── models/                      # Package for data models and validation schemas
+│   ├── __init__.py              # Marks models as a package
+│   └── index.py                 # Pydantic models for request/response validation
+│
+├── routers/                     # Package containing API route handlers
+│   ├── __init__.py              # Marks routers as a package
+│   ├── auth.py                  # Login and signup endpoints
+│   ├── chat.py                  # Interview conversation endpoints
+│   ├── report.py                # Report generation and retrieval endpoints
+│   └── users.py                 # User profile management endpoints
+│
+├── services/                    # Package containing business logic services
+│   ├── __init__.py              # Marks services as a package
+│   ├── gemini_service.py        # Service for generating AI responses using Google Gemini
+│   ├── open_router_service.py   # Wrapper for OpenRouter API (AI model access)
+│   └── report_service.py        # Service for generating business analysis reports
+│
+└── utils/                       # Package containing utility functions
+    ├── __init__.py              # Marks utils as a package
+    ├── authenticaiton.py        # JWT token generation and password hashing utilities
+    ├── file_storage.py          # Functions for loading and saving local JSON data
+    └── report_storage.py        # Functions for storing and retrieving report data

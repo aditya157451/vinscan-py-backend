@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VinScan - Business Intelligence Platform</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="/static/css/responsive.css">
+    <style>
+        /* Landing page specific styles */
+        .landing-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: var(--spacing-lg);
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            color: white;
+            padding: var(--spacing-2xl);
+            text-align: center;
+        }
+
+        .auth-header h1 {
+            color: white;
+            margin-bottom: var(--spacing-sm);
+            font-size: 2rem;
+        }
+
+        .auth-header p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+        }
+
+        .auth-forms {
+            padding: var(--spacing-2xl);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-form.show-signup .login-form {
+            display: none;
+        }
+
+        .auth-form.show-signup .signup-form {
+            display: block;
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: var(--spacing-lg);
+            color: var(--gray-600);
+        }
+
+        .auth-toggle a {
+            color: var(--primary-blue);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .password-strength {
+            margin-top: var(--spacing-xs);
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .password-strength.weak {
+            color: var(--error);
+        }
+
+        .password-strength.medium {
+            color: var(--warning);
+        }
+
+        .password-strength.strong {
+            color: var(--success);
+        }
+
+        @media (max-width: 640px) {
+            .landing-page {
+                padding: var(--spacing-md);
+            }
+
+            .auth-container {
+                border-radius: var(--radius-lg);
+            }
+
+            .auth-header {
+                padding: var(--spacing-xl);
+            }
+
+            .auth-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .auth-forms {
+                padding: var(--spacing-xl);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-page">
+        <div class="auth-container" id="auth-container">
+            <div class="auth-header">
+                <h1>VinScan</h1>
+                <p>AI-Powered Business Intelligence Platform</p>
+            </div>
+            
+            <div class="auth-forms">
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form active">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input 
+                            type="email" 
+                            id="login-email" 
+                            class="form-input" 
+                            placeholder="your@email.com"
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Password</label>
+                        <input 
+                            type="password" 
+                            id="login-password" 
+                            class="form-input" 
+                            placeholder="Enter your password"
+                            required
+                            autocomplete="current-password"
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-full">
+                        Sign In
+                    </button>
+                    
+                    <div class="auth-toggle">
+                        Don't have an account? <a href="#" class="auth-toggle-link" data-form="signup">Sign up</a>
+                    </div>
+                </form>
+                
+                <!-- Signup Form -->
+                <form id="signup-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="signup-name" class="form-label">Full Name *</label>
+                        <input 
+                            type="text" 
+                            id="signup-name" 
+                            class="form-input" 
+                            placeholder="John Doe"
+                            required
+                            autocomplete="name"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-email" class="form-label">Email *</label>
+                        <input 
+                            type="email" 
+                            id="signup-email" 
+                            class="form-input" 
+                            placeholder="your@email.com"
+                            required
+                            autocomplete="email"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-password" class="form-label">Password *</label>
+                        <input 
+                            type="password" 
+                            id="signup-password" 
+                            class="form-input" 
+                            placeholder="At least 6 characters, 1 digit, 1 uppercase"
+                            required
+                            autocomplete="new-password"
+                        >
+                        <div id="password-strength" class="password-strength"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-position" class="form-label">Position</label>
+                        <input 
+                            type="text" 
+                            id="signup-position" 
+                            class="form-input" 
+                            placeholder="CEO, Manager, etc."
+                            autocomplete="organization-title"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-company" class="form-label">Company</label>
+                        <input 
+                            type="text" 
+                            id="signup-company" 
+                            class="form-input" 
+                            placeholder="Your Company Name"
+                            autocomplete="organization"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-website" class="form-label">Website URL</label>
+                        <input 
+                            type="url" 
+                            id="signup-website" 
+                            class="form-input" 
+                            placeholder="https://example.com"
+                            autocomplete="url"
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-full">
+                        Create Account
+                    </button>
+                    
+                    <div class="auth-toggle">
+                        Already have an account? <a href="#" class="auth-toggle-link" data-form="login">Sign in</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/auth.js"></script>
+    
+    <script>
+        // Toggle between login and signup forms
+        document.querySelectorAll('.auth-toggle-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const formType = e.target.dataset.form;
+                const container = document.getElementById('auth-container');
+                const loginForm = document.getElementById('login-form');
+                const signupForm = document.getElementById('signup-form');
+                
+                if (formType === 'signup') {
+                    loginForm.classList.remove('active');
+                    signupForm.classList.add('active');
+                } else {
+                    signupForm.classList.remove('active');
+                    loginForm.classList.add('active');
+                }
+            });
+        });
+
+        // Password strength indicator
+        const passwordInput = document.getElementById('signup-password');
+        const strengthIndicator = document.getElementById('password-strength');
+        
+        if (passwordInput && strengthIndicator) {
+            passwordInput.addEventListener('input', (e) => {
+                const password = e.target.value;
+                if (password.length === 0) {
+                    strengthIndicator.textContent = '';
+                    strengthIndicator.className = 'password-strength';
+                    return;
+                }
+                
+                const validation = validatePassword(password);
+                if (validation.valid) {
+                    strengthIndicator.textContent = '✓ Password strength: Strong';
+                    strengthIndicator.className = 'password-strength strong';
+                } else {
+                    const strength = password.length < 4 ? 'weak' : 'medium';
+                    strengthIndicator.textContent = `Password strength: ${strength.charAt(0).toUpperCase() + strength.slice(1)}`;
+                    strengthIndicator.className = `password-strength ${strength}`;
+                }
+            });
+        }
+
+        // Check if already authenticated
+        if (isAuthenticated()) {
+            window.location.href = '/dashboard';
+        }
+    </script>
+</body>
+</html>
+

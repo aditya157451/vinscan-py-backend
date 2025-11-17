@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - VinScan</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="/static/css/responsive.css">
+    <style>
+        .report-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            background: var(--gray-50);
+        }
+
+        .report-nav {
+            width: 250px;
+            background: white;
+            border-right: 1px solid var(--gray-200);
+            padding: var(--spacing-lg);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .report-nav h3 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray-600);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .report-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .report-nav li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .report-nav a {
+            display: block;
+            padding: var(--spacing-sm) var(--spacing-md);
+            color: var(--gray-700);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            text-decoration: none;
+        }
+
+        .report-nav a:hover {
+            background-color: var(--gray-100);
+            color: var(--primary-blue);
+        }
+
+        .report-content-area {
+            flex: 1;
+            padding: var(--spacing-xl);
+            overflow-y: auto;
+        }
+
+        .report-header {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+        }
+
+        .report-header h1 {
+            margin: 0;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .report-content {
+            background: white;
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .report-section {
+            margin-bottom: var(--spacing-2xl);
+            padding-bottom: var(--spacing-2xl);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .report-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .report-section h2 {
+            color: var(--primary-blue);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .report-content-text {
+            line-height: 1.8;
+            color: var(--gray-700);
+        }
+
+        .report-content-text p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .report-content-text ul,
+        .report-content-text ol {
+            margin: var(--spacing-md) 0;
+            padding-left: var(--spacing-xl);
+        }
+
+        .report-content-text li {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .report-content-text strong {
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .report-meta {
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid var(--gray-200);
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-base);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .report-layout {
+                flex-direction: column;
+            }
+
+            .report-nav {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--gray-200);
+            }
+
+            .report-content-area {
+                padding: var(--spacing-lg);
+            }
+        }
+
+        @media print {
+            .sidebar,
+            .report-nav,
+            .report-actions {
+                display: none !important;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+
+            .report-content {
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 style="margin: 0; color: var(--primary-blue);">VinScan</h2>
+                <p style="margin: var(--spacing-xs) 0 0 0; color: var(--gray-600); font-size: 0.875rem;">Business Intelligence</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="sidebar-nav-item">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/chat" class="sidebar-nav-item">
+                    <span>💬</span>
+                    <span>Interview</span>
+                </a>
+                <a href="/report" class="sidebar-nav-item active">
+                    <span>📄</span>
+                    <span>Reports</span>
+                </a>
+                <a href="#" id="logout-btn" class="sidebar-nav-item">
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="report-content-area">
+                <div class="report-header">
+                    <h1>Business Intelligence Report</h1>
+                    <div class="report-actions">
+                        <button id="generate-report-btn" class="btn btn-outline" onclick="generateReport()">
+                            Generate Report
+                        </button>
+                        <button class="btn btn-secondary" onclick="printReport()">
+                            Print
+                        </button>
+                        <button class="btn btn-primary" onclick="exportReport()">
+                            Export
+                        </button>
+                    </div>
+                </div>
+
+                <div class="report-content">
+                    <div id="report-content">
+                        <div style="text-align: center; padding: var(--spacing-2xl);">
+                            <div class="spinner" style="margin: 0 auto var(--spacing-lg);"></div>
+                            <p>Loading report...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Navigation -->
+            <aside class="report-nav" id="report-nav">
+                <h3>Report Sections</h3>
+                <p style="color: var(--gray-500); font-size: 0.875rem;">Navigation will appear when report is loaded</p>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/report.js"></script>
+    
+    <script>
+        // Check authentication
+        if (!requireAuth()) {
+            // Redirect handled by requireAuth
+            exit;
+        }
+    </script>
+</body>
+</html>
+

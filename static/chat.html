@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview - VinScan</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/components.css">
+    <link rel="stylesheet" href="/static/css/responsive.css">
+    <style>
+        .chat-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: var(--gray-50);
+        }
+
+        .chat-header {
+            background: white;
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .chat-header h1 {
+            margin: 0 0 var(--spacing-xs) 0;
+            font-size: 1.5rem;
+        }
+
+        .chat-progress {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .progress-item strong {
+            color: var(--gray-900);
+        }
+
+        .progress-container {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            margin: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: scroll;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 70%;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .message-user {
+            align-self: flex-end;
+        }
+
+        .message-assistant {
+            align-self: flex-start;
+        }
+
+        .message-content {
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            word-wrap: break-word;
+        }
+
+        .message-user .message-content {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .message-assistant .message-content {
+            background: var(--gray-100);
+            color: var(--gray-900);
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: var(--spacing-xs);
+            padding: 0 var(--spacing-sm);
+        }
+
+        .typing-indicator {
+            opacity: 0.7;
+        }
+
+        .typing-dots {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .chat-input-container {
+            padding: var(--spacing-lg);
+            border-top: 1px solid var(--gray-200);
+            background: white;
+        }
+
+        .chat-form {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .chat-input {
+            flex: 1;
+        }
+
+        .stakeholder-selection {
+            padding: var(--spacing-xl);
+            background: white;
+            margin: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stakeholder-selection h2 {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stakeholder-selection p {
+            color: var(--gray-600);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform var(--transition-base);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .message {
+                max-width: 85%;
+            }
+
+            .chat-progress {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2 style="margin: 0; color: var(--primary-blue);">VinScan</h2>
+                <p style="margin: var(--spacing-xs) 0 0 0; color: var(--gray-600); font-size: 0.875rem;">Business Intelligence</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/dashboard" class="sidebar-nav-item">
+                    <span>📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/chat" class="sidebar-nav-item active">
+                    <span>💬</span>
+                    <span>Interview</span>
+                </a>
+                <a href="/report" class="sidebar-nav-item">
+                    <span>📄</span>
+                    <span>Reports</span>
+                </a>
+                <a href="#" id="logout-btn" class="sidebar-nav-item">
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="chat-header">
+                <h1>Stakeholder Interview</h1>
+                <div class="chat-progress">
+                    <div class="progress-item">
+                        <strong>Current Stakeholder:</strong>
+                        <span id="current-stakeholder">-</span>
+                    </div>
+                    <div class="progress-item">
+                        <strong>Phase:</strong>
+                        <span id="current-phase">-</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress">
+                            <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stakeholder Selection UI -->
+            <div id="stakeholder-selection" class="stakeholder-selection" style="display: none;">
+                <h2>Select Stakeholders to Interview</h2>
+                <p>Choose the stakeholders you'd like to interview. You can select multiple stakeholders and add custom ones if needed.</p>
+                
+                <form id="stakeholder-form">
+                    <div id="stakeholder-checkboxes" class="checkbox-group">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: var(--spacing-lg);">
+                        <label for="other-stakeholder" class="form-label">Other Stakeholder (Optional)</label>
+                        <input 
+                            type="text" 
+                            id="other-stakeholder" 
+                            class="form-input" 
+                            placeholder="e.g., Operations Manager"
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        Start Interview
+                    </button>
+                </form>
+            </div>
+
+            <!-- Chat Interface -->
+            <div id="chat-interface" class="chat-container" style="display: none;">
+                <div id="chat-messages" class="chat-messages">
+                    <!-- Messages will be added here -->
+                </div>
+                
+                <div class="chat-input-container">
+                    <form id="chat-form" class="chat-form">
+                        <input 
+                            type="text" 
+                            id="message-input" 
+                            class="form-input chat-input" 
+                            placeholder="Type your message..."
+                            autocomplete="off"
+                            required
+                        >
+                        <button type="submit" class="btn btn-primary">
+                            Send
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="/static/js/chat.js"></script>
+    
+    <script>
+        // Check authentication
+        if (!requireAuth()) {
+            // Redirect handled by requireAuth
+            exit;
+        }
+
+        // Auto-focus message input when chat interface is shown
+        const observer = new MutationObserver(() => {
+            const chatInterface = document.getElementById('chat-interface');
+            const messageInput = document.getElementById('message-input');
+            if (chatInterface && chatInterface.style.display !== 'none' && messageInput) {
+                messageInput.focus();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['style']
+        });
+    </script>
+</body>
+</html>
+
