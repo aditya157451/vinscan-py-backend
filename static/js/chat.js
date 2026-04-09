@@ -1,5 +1,5 @@
 /* ============================================
-   VinScan - Chat Module
+  AI Business Interview & Reporting System  - Chat Module
    ============================================ */
 
 let conversationState = null;

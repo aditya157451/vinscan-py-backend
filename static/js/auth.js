@@ -1,5 +1,5 @@
 /* ============================================
-   VinScan - Authentication Module
+   AI Business Interview & Reporting System- Authentication Module
    ============================================ */
 
 /**

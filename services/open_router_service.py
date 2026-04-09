@@ -26,7 +26,7 @@ class OpenRouterService:
         self.headers = {
             'Authorization': f'Bearer {api_key}',
             'HTTP-Referer': 'https://vinscan-test.com',  # Required for rankings
-            'X-Title': 'VinScan App',  # Required for rankings
+            'X-Title': 'AI Business Interview & Reporting System App',  # Required for rankings
             'Content-Type': 'application/json'
         }
 

@@ -35,7 +35,7 @@ async def lifespan(app: FastAPI):
     print("Data saved to storage files")
 
 # Initialize FastAPI app
-app = FastAPI(title="VinScan API", lifespan=lifespan)
+app = FastAPI(title="AI Business Interview & Reporting System", lifespan=lifespan)
 
 # Configure CORS
 app.add_middleware(

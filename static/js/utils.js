@@ -1,5 +1,5 @@
 /* ============================================
-   VinScan - Utility Functions
+  AI Business Interview & Reporting System- Utility Functions
    ============================================ */
 
 /**

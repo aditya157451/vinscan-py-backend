@@ -1,5 +1,5 @@
 /* ============================================
-   VinScan - API Client
+   AI Business Interview & Reporting System - API Client
    Centralized API communication
    ============================================ */
 

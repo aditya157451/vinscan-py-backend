@@ -296,7 +296,7 @@ async def chat(chat_request: ChatRequest, request: Request):
                                     [f"{i + 1}. {s}" for i, s in enumerate(state['pendingStakeholders'])])
                         else:
                             state['phase'] = 'report_generation'
-                            next_question = "Thank you for completing all the stakeholder interviews! Your VinScan report is now being generated. " + \
+                            next_question = "Thank you for completing all the stakeholder interviews! Your AI Business Interview & Reporting System report is now being generated. " + \
                                             "Please visit your dashboard to view your report once it's ready. " + \
                                             "This may take a few minutes as our AI analyzes your business information."
 
@@ -339,7 +339,7 @@ async def chat(chat_request: ChatRequest, request: Request):
                 if state['questionIndex'] < len(competitor_scan_questions):
                     next_question = competitor_scan_questions[state['questionIndex']]
                 else:
-                    next_question = "Thank you for completing the Competitor Scan. We have now gathered all the necessary information for your VinScan report. Our team will analyze this information and provide you with a comprehensive report soon. Is there anything else you'd like to add or discuss?"
+                    next_question = "Thank you for completing the Competitor Scan. We have now gathered all the necessary information for your AI Business Interview & Reporting System. Our team will analyze this information and provide you with a comprehensive report soon. Is there anything else you'd like to add or discuss?"
 
         response = "I'm having trouble processing your response right now. Could you please try again or provide more details?"
 

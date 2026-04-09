@@ -1,5 +1,5 @@
 /* ============================================
-   VinScan - Report Module
+   AI Business Interview & Reporting System- Report Module
    ============================================ */
 
 let reportData = null;
@@ -321,7 +321,7 @@ function exportReport() {
         return;
     }
 
-    let text = 'VINSCAN BUSINESS INTELLIGENCE REPORT\n';
+    let text = 'AI Business Interview & Reporting System\n';
     text += '='.repeat(50) + '\n\n';
 
     if (reportData.summary) {
