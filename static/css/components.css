@@ -18,7 +18,6 @@
     cursor: pointer;
     transition: all var(--transition-fast);
     white-space: nowrap;
-    user-select: none;
 }
 
 .btn:disabled {
@@ -195,7 +194,6 @@
 .checkbox-item label,
 .radio-item label {
     cursor: pointer;
-    user-select: none;
 }
 
 /* Badges */
